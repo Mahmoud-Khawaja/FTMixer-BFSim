@@ -1,9 +1,11 @@
-import dash
-from dash import dcc, html, callback, Output, Input
+from dash import Dash, html, dcc, Input, Output
+import dash_bootstrap_components as dbc
 
-app = dash.Dash(__name__, suppress_callback_exceptions=True)
+app = Dash(__name__, 
+           external_stylesheets=[dbc.themes.BOOTSTRAP],
+           suppress_callback_exceptions=True)
 
-# Add custom CSS
+# Add custom CSS for modern styling
 app.index_string = '''
 <!DOCTYPE html>
 <html>
@@ -53,15 +55,18 @@ app.layout = html.Div([
     'background': f'linear-gradient(135deg, {COLORS["background"]} 0%, #1a2332 100%)'
 })
 
-@callback(Output('page-content', 'children'),
-          Input('url', 'pathname'))
+# Import your pages
+from pages import ft_page, bt_page
+
+@app.callback(
+    Output('page-content', 'children'),
+    [Input('url', 'pathname')]
+)
 def display_page(pathname):
-    if pathname == '/bt':
-        from pages import bt_page
-        return bt_page.layout
-    elif pathname == '/ft':
-        from pages import ft_page
+    if pathname == '/ft':
         return ft_page.layout
+    elif pathname == '/bt':
+        return bt_page.layout
     else:
         return html.Div([
             # Header
@@ -86,41 +91,8 @@ def display_page(pathname):
                 'marginBottom': '4rem'
             }),
             
-            # Navigation Cards
+            # Navigation Cards for FT and BT Pages
             html.Div([
-                # BG Page Card
-                dcc.Link([
-                    html.Div([
-                        html.Div([
-                            html.Div("BT", style={
-                                'fontSize': '2rem',
-                                'fontWeight': '700',
-                                'marginBottom': '0.5rem'
-                            }),
-                            html.Div("Beamforming Simulator", style={
-                                'fontSize': '0.95rem',
-                                'color': COLORS['text_secondary'],
-                                'marginBottom': '1.5rem'
-                            }),
-                            html.Div("→", style={
-                                'fontSize': '1.5rem',
-                                'transition': 'transform 0.3s ease'
-                            })
-                        ])
-                    ], style={
-                        'background': COLORS['surface'],
-                        'padding': '2.5rem',
-                        'borderRadius': '1rem',
-                        'border': f'1px solid rgba(99, 102, 241, 0.2)',
-                        'transition': 'all 0.3s ease',
-                        'cursor': 'pointer',
-                        'minHeight': '200px',
-                        'display': 'flex',
-                        'flexDirection': 'column',
-                        'justifyContent': 'center'
-                    }, className='nav-card')
-                ], href='/bt', style={'textDecoration': 'none', 'color': COLORS['text']}),
-                
                 # FT Page Card
                 dcc.Link([
                     html.Div([
@@ -130,7 +102,7 @@ def display_page(pathname):
                                 'fontWeight': '700',
                                 'marginBottom': '0.5rem'
                             }),
-                            html.Div("Fourier Transform", style={
+                            html.Div("Fourier Transform Mixer", style={
                                 'fontSize': '0.95rem',
                                 'color': COLORS['text_secondary'],
                                 'marginBottom': '1.5rem'
@@ -152,7 +124,40 @@ def display_page(pathname):
                         'flexDirection': 'column',
                         'justifyContent': 'center'
                     }, className='nav-card')
-                ], href='/ft', style={'textDecoration': 'none', 'color': COLORS['text']})
+                ], href='/ft', style={'textDecoration': 'none', 'color': COLORS['text']}),
+                
+                # BT Page Card
+                dcc.Link([
+                    html.Div([
+                        html.Div([
+                            html.Div("BT", style={
+                                'fontSize': '2rem',
+                                'fontWeight': '700',
+                                'marginBottom': '0.5rem'
+                            }),
+                            html.Div("Your BT Application", style={
+                                'fontSize': '0.95rem',
+                                'color': COLORS['text_secondary'],
+                                'marginBottom': '1.5rem'
+                            }),
+                            html.Div("→", style={
+                                'fontSize': '1.5rem',
+                                'transition': 'transform 0.3s ease'
+                            })
+                        ])
+                    ], style={
+                        'background': COLORS['surface'],
+                        'padding': '2.5rem',
+                        'borderRadius': '1rem',
+                        'border': f'1px solid rgba(139, 92, 246, 0.2)',
+                        'transition': 'all 0.3s ease',
+                        'cursor': 'pointer',
+                        'minHeight': '200px',
+                        'display': 'flex',
+                        'flexDirection': 'column',
+                        'justifyContent': 'center'
+                    }, className='nav-card')
+                ], href='/bt', style={'textDecoration': 'none', 'color': COLORS['text']})
             ], style={
                 'display': 'grid',
                 'gridTemplateColumns': 'repeat(auto-fit, minmax(280px, 1fr))',
@@ -164,7 +169,7 @@ def display_page(pathname):
             
             # Footer
             html.Div([
-                html.P("Built with Dash", style={
+                html.P("Built with Dash & Bootstrap", style={
                     'color': COLORS['text_secondary'],
                     'fontSize': '0.875rem'
                 })
@@ -172,13 +177,11 @@ def display_page(pathname):
                 'textAlign': 'center',
                 'marginTop': '6rem',
                 'paddingBottom': '2rem'
-            }),
-            
-
+            })
         ], style={
             'minHeight': '100vh',
             'color': COLORS['text']
         })
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8050, use_reloader=False)
+    app.run(debug=True)
