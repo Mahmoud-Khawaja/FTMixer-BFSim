@@ -71,7 +71,7 @@ def display_page(pathname):
         return html.Div([
             # Header
             html.Div([
-                html.H1("Welcome", style={
+                html.H1("Signal Processing Suite", style={
                     'fontSize': '3.5rem',
                     'fontWeight': '700',
                     'background': f'linear-gradient(135deg, {COLORS["primary"]} 0%, {COLORS["secondary"]} 100%)',
@@ -80,7 +80,7 @@ def display_page(pathname):
                     'marginBottom': '1rem',
                     'letterSpacing': '-0.02em'
                 }),
-                html.P("Choose your destination", style={
+                html.P("Choose your application", style={
                     'fontSize': '1.25rem',
                     'color': COLORS['text_secondary'],
                     'fontWeight': '400'
@@ -91,21 +91,23 @@ def display_page(pathname):
                 'marginBottom': '4rem'
             }),
             
-            # Navigation Cards for FT and BT Pages
+            # Navigation Cards
             html.Div([
                 # FT Page Card
                 dcc.Link([
                     html.Div([
                         html.Div([
-                            html.Div("FT", style={
-                                'fontSize': '2rem',
+                            html.Div("🔍", style={'fontSize': '3rem', 'marginBottom': '1rem'}),
+                            html.Div("Fourier Transform Mixer", style={
+                                'fontSize': '1.5rem',
                                 'fontWeight': '700',
                                 'marginBottom': '0.5rem'
                             }),
-                            html.Div("Fourier Transform Mixer", style={
+                            html.Div("Mix magnitude & phase components | Region selection | Real-time processing", style={
                                 'fontSize': '0.95rem',
                                 'color': COLORS['text_secondary'],
-                                'marginBottom': '1.5rem'
+                                'marginBottom': '1.5rem',
+                                'lineHeight': '1.5'
                             }),
                             html.Div("→", style={
                                 'fontSize': '1.5rem',
@@ -119,7 +121,7 @@ def display_page(pathname):
                         'border': f'1px solid rgba(139, 92, 246, 0.2)',
                         'transition': 'all 0.3s ease',
                         'cursor': 'pointer',
-                        'minHeight': '200px',
+                        'minHeight': '250px',
                         'display': 'flex',
                         'flexDirection': 'column',
                         'justifyContent': 'center'
@@ -130,15 +132,17 @@ def display_page(pathname):
                 dcc.Link([
                     html.Div([
                         html.Div([
-                            html.Div("BT", style={
-                                'fontSize': '2rem',
+                            html.Div("📡", style={'fontSize': '3rem', 'marginBottom': '1rem'}),
+                            html.Div("Beamforming Simulator", style={
+                                'fontSize': '1.5rem',
                                 'fontWeight': '700',
                                 'marginBottom': '0.5rem'
                             }),
-                            html.Div("Your BT Application", style={
+                            html.Div("Phased arrays | Beam steering | 5G / Ultrasound / Tumor ablation scenarios", style={
                                 'fontSize': '0.95rem',
                                 'color': COLORS['text_secondary'],
-                                'marginBottom': '1.5rem'
+                                'marginBottom': '1.5rem',
+                                'lineHeight': '1.5'
                             }),
                             html.Div("→", style={
                                 'fontSize': '1.5rem',
@@ -152,7 +156,7 @@ def display_page(pathname):
                         'border': f'1px solid rgba(139, 92, 246, 0.2)',
                         'transition': 'all 0.3s ease',
                         'cursor': 'pointer',
-                        'minHeight': '200px',
+                        'minHeight': '250px',
                         'display': 'flex',
                         'flexDirection': 'column',
                         'justifyContent': 'center'
@@ -160,16 +164,16 @@ def display_page(pathname):
                 ], href='/bt', style={'textDecoration': 'none', 'color': COLORS['text']})
             ], style={
                 'display': 'grid',
-                'gridTemplateColumns': 'repeat(auto-fit, minmax(280px, 1fr))',
+                'gridTemplateColumns': 'repeat(auto-fit, minmax(320px, 1fr))',
                 'gap': '2rem',
-                'maxWidth': '800px',
+                'maxWidth': '900px',
                 'margin': '0 auto',
                 'padding': '0 2rem'
             }),
             
             # Footer
             html.Div([
-                html.P("Built with Dash & Bootstrap", style={
+                html.P("Built with Dash, Plotly & Proper OOP", style={
                     'color': COLORS['text_secondary'],
                     'fontSize': '0.875rem'
                 })
@@ -184,4 +188,4 @@ def display_page(pathname):
         })
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=8050)
